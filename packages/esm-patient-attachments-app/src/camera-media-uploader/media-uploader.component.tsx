@@ -16,7 +16,6 @@ const MediaUploaderComponent = () => {
   const { maxFileSize } = useConfig();
   const { setFilesToUpload, allowedExtensions, multipleFiles } = useContext(CameraMediaUploaderContext);
   const [errorNotification, setErrorNotification] = useState<ErrorNotification>(null);
-
   const upload = useCallback(
     (files: Array<File>) => {
       files.forEach((file) => {
@@ -25,10 +24,20 @@ const MediaUploaderComponent = () => {
             title: t('fileSizeLimitExceededText', 'File size limit exceeded'),
             subtitle: `${file.name} ${t('fileSizeLimitExceeded', 'exceeds the size limit of')} ${maxFileSize} MB.`,
           });
-        } else if (!isFileExtensionAllowed(file.name, allowedExtensions)) {
+        } else if (!isFileExtensionAllowed(file.type, allowedExtensions)) {
+          const allowedExtensionsString = allowedExtensions
+            .map((mimeType, index, array) => {
+              const extension = mimeType.split('/').pop();
+              return index === array.length - 1 ? `and ${extension}` : extension;
+            })
+            .join(', ');
+
           setErrorNotification({
             title: t('fileExtensionNotAllowedText', 'File extension is not allowed'),
-            subtitle: `${file.name} ${t('allowedExtensionsAre', 'Allowed extensions are: ')} ${allowedExtensions}.`,
+            subtitle: `${file.name} ${t(
+              'allowedExtensionsAre',
+              'Allowed extensions are: ',
+            )} ${allowedExtensionsString}.`,
           });
         } else {
           // Convert MBs to bytes
@@ -52,13 +61,8 @@ const MediaUploaderComponent = () => {
     [setFilesToUpload, maxFileSize, t],
   );
 
-  const isFileExtensionAllowed = (fileName: string, allowedExtensions: string[]): boolean => {
-    if (!allowedExtensions) {
-      return true;
-    }
-    const fileExtension = fileName.split('.').pop();
-    return allowedExtensions?.includes(fileExtension.toLowerCase());
-  };
+  const isFileExtensionAllowed = (fileType: string, allowedExtensions: string[]): boolean =>
+    allowedExtensions.includes(fileType);
 
   return (
     <div className="cds--file__container">
@@ -81,7 +85,7 @@ const MediaUploaderComponent = () => {
       </p>
       <div className={styles.uploadFile}>
         <FileUploaderDropContainer
-          accept={allowedExtensions?.map((ext) => '.' + ext) || ['*']}
+          accept={allowedExtensions}
           labelText={t('fileSizeInstructions', 'Drag and drop files here or click to upload')}
           tabIndex={0}
           multiple={multipleFiles}
