@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -164,17 +163,6 @@ const VitalsAndBiometricsForm: React.FC<DefaultWorkspaceProps> = ({ patientUuid,
       setIsSubmitting(true);
       setShowErrorMessage(false);
       const abortController = new AbortController();
-      console.log(
-        'SAVE',
-        config.vitals.encounterTypeUuid,
-        config.vitals.formUuid,
-        config.concepts,
-        patientUuid,
-        formData,
-        new Date(),
-        abortController,
-        session?.sessionLocation?.uuid,
-      );
 
       savePatientVitals(
         config.vitals.encounterTypeUuid,
