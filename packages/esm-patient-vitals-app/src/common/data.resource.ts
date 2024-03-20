@@ -218,7 +218,6 @@ export function saveVitalsAndBiometrics(
   concepts: ConfigObject['concepts'],
   patientUuid: string,
   vitals: VitalsBiometricsFormData,
-  encounterDatetime: Date,
   abortController: AbortController,
   location: string,
 ) {
@@ -230,7 +229,6 @@ export function saveVitalsAndBiometrics(
     signal: abortController.signal,
     body: {
       patient: patientUuid,
-      encounterDatetime: encounterDatetime,
       location: location,
       encounterType: encounterTypeUuid,
       form: formUuid,
@@ -243,7 +241,6 @@ export function updateVitalsAndBiometrics(
   concepts: ConfigObject['concepts'],
   patientUuid: string,
   vitals: VitalsBiometricsFormData,
-  encounterDatetime: Date,
   abortController: AbortController,
   encounterUuid: string,
   location: string,
@@ -255,7 +252,6 @@ export function updateVitalsAndBiometrics(
     },
     signal: abortController.signal,
     body: {
-      encounterDatetime: encounterDatetime,
       location: location,
       patient: patientUuid,
       obs: createObsObject(vitals, concepts),
