@@ -170,7 +170,6 @@ const VitalsAndBiometricsForm: React.FC<DefaultWorkspaceProps> = ({ patientUuid,
         config.concepts,
         patientUuid,
         formData,
-        new Date(),
         abortController,
         session?.sessionLocation?.uuid,
       )
