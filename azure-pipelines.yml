@@ -1,0 +1,28 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- develop-itl
+
+pool:
+  vmImage: windows-2019
+
+steps:
+- checkout: self
+  persistCredentials: true #Important - Persist creds to run further git command
+  clean: true
+  fetchDepth: 0
+
+- script: |
+    git config --global core.longpaths true
+    git config --global user.email "nikola.talevski@it-labs.com"
+    git config --global user.name "nikola-talevski"
+    #git fetch --all
+    git checkout develop-itl
+    git pull --all
+    git add .
+    git commit -m "Add latest changes"
+    git push https://$(git_token)@github.com/IT-Labs/$(repo_name).git -f
+  displayName: 'Run git sync'
