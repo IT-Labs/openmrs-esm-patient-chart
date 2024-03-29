@@ -17,8 +17,8 @@ steps:
 
 - script: |
     git config --global core.longpaths true
-    git config --global user.email "nikola.talevski@it-labs.com"
-    git config --global user.name "nikola-talevski"
+    git config --global user.email "$(user_email)"
+    git config --global user.name "$(user_name)"
     #git fetch --all
     git checkout develop-itl
     git pull --all
