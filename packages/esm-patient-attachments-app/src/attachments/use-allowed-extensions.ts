@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import useSWRImmutable from 'swr/immutable';
 import { openmrsFetch } from '@openmrs/esm-framework';
 

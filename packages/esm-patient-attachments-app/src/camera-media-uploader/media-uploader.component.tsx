@@ -14,7 +14,7 @@ interface ErrorNotification {
 
 const MediaUploaderComponent = () => {
   const { t } = useTranslation();
-  const allowedExtensions = useAllowedExtensions().allowedExtensions;
+  const { allowedExtensions } = useAllowedExtensions();
   const { maxFileSize } = useConfig();
   const { setFilesToUpload, multipleFiles } = useContext(CameraMediaUploaderContext);
   const [errorNotification, setErrorNotification] = useState<ErrorNotification>(null);
