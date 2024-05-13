@@ -5,6 +5,7 @@ import { useConfig } from '@openmrs/esm-framework';
 import { readFileAsString } from '../utils';
 import CameraMediaUploaderContext from './camera-media-uploader-context.resources';
 import styles from './media-uploader.scss';
+import { useAllowedExtensions } from '../attachments/use-allowed-extensions';
 
 interface ErrorNotification {
   title: string;
@@ -13,8 +14,9 @@ interface ErrorNotification {
 
 const MediaUploaderComponent = () => {
   const { t } = useTranslation();
+  const allowedExtensions = useAllowedExtensions().allowedExtensions;
   const { maxFileSize } = useConfig();
-  const { setFilesToUpload, allowedExtensions, multipleFiles } = useContext(CameraMediaUploaderContext);
+  const { setFilesToUpload, multipleFiles } = useContext(CameraMediaUploaderContext);
   const [errorNotification, setErrorNotification] = useState<ErrorNotification>(null);
   const upload = useCallback(
     (files: Array<File>) => {
