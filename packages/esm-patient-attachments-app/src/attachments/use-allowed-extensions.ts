@@ -19,9 +19,9 @@ export const useAllowedExtensions = () => {
 
   const { data, error, isLoading } = useSWRImmutable<{ data: { results: Array<GlobalProperty> } }>(url, openmrsFetch);
 
-  const allowedExtensions =
-    data?.data?.results?.length > 0 ? data?.data?.results[0].value?.toLowerCase().split(',') || undefined : undefined;
-
+  const allowedExtensions = data?.data?.results?.[0]?.value
+    ? data.data.results[0].value.toLowerCase().split(',') || ['image/jpeg', 'image/png', 'image/webp']
+    : ['image/jpeg', 'image/png', 'image/webp'];
   return {
     allowedExtensions,
     error,
